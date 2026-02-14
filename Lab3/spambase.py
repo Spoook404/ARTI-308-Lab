@@ -1,4 +1,6 @@
 import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 columns = [
     'word_freq_make','word_freq_address','word_freq_all','word_freq_3d',
@@ -36,3 +38,37 @@ print(df.info())
 
 print("\nTarget value counts:")
 print(df["class"].value_counts())
+
+
+print("Missing values per column:")
+print(df.isnull().sum().sum())
+
+print("\nDuplicate rows:")
+print(df.duplicated().sum())
+
+df.head()
+
+df.describe().T
+print(df.isna().sum())
+
+df['word_freq_free'].hist(bins=30)
+plt.title("Distribution of 'free' word frequency")
+plt.show()
+
+df['capital_run_length_longest'].hist(bins=30)
+plt.title("Distribution of longest capital run")
+plt.show()
+
+df.groupby('class')['word_freq_free'].mean()
+df.groupby('class')['char_freq_!'].mean()
+df.groupby('class')['capital_run_length_longest'].mean()
+
+df.boxplot(column='word_freq_free', by='class')
+plt.title("Word 'free' Frequency by Class")
+plt.suptitle("")
+plt.show()
+
+plt.figure(figsize=(12,8))
+sns.heatmap(df.corr(), cmap='coolwarm')
+plt.title("Feature Correlation Heatmap")
+plt.show()
